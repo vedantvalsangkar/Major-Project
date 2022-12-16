@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}Subject{% endblock %}
+{% block logo %}{{ classroom["name"] }}{% endblock %}
+
+{% block nav %}{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="my-4 card text-light" style="background-color: rgb(174, 70, 253); border: 6px solid rgb(145, 57, 212);">
+        <div class="card-body">
+            <div class="row align-items-center p-2" >
+                <span class="h2 text-light col-auto" style="text-shadow: 2px 2px #444444ff;">{{ classroom["name"] }} </span>
+                <span class="col-auto ml-auto font-weight-bold">Class code: {{ classroom["code"] }}</span>
+            </div>
+        </div>
+        <div class="card-footer p-2 px-4" style="background-color: rgb(145, 57, 212);">
+            <div class="row align-items-center">
+               <h6 class="col-auto">{{ classroom["desc"] }}</h6>
+            <h5 class="col-auto ml-auto">{{ classroom["teacher"].name }}</h5>
+            </div>
+            
+
+        </div>
+    </div>    
+
+    <div class="row mt-4 align-items-center mx-1 mb-3">
+        <h4 class="col-auto mr-auto">Assignments</h5>
+        {% if session["user_type"] == "teacher" %}
+            <div class="col-sm-6 w-auto col-12">
+                <a class="btn btn-success align-items-center" href="/classroom/{{ classroom['code'] }}/assignment/create"><i class="far fa-plus-square"></i> New assignment</a>
+            </div>
+        {% endif %}
+    </div>
+    <div class="row mx-2">
+        {% for idx in range(0, assignments|length, 3) %}
+            <!-- <div class="card-deck"> -->
+                {% for assignment in assignments[idx:idx+3] %}
+                    <div class="col-lg-4 my-2">
+                        <div class="card hover-shadow border-secondary ">
+                            <div class="card-body">
+                                <a href="/assignment/{{ assignment['code'] }}" class="card-title h5 text-decoration-none text-success">{{ assignment['name'] }}</a>
+                                <p class="card-text text-muted mt-2 text-truncate">{{ assignment['desc'] }}</p>
+                            </div>
+                            <div class="card-footer row mx-0 align-items-center pl-1">
+                                <span>
+                                    Due: 
+                                    <span class="
+                                        {% if assignment.deadline and assignment.deadline < current_time() %}
+                                            text-danger
+                                        {% endif %}">
+                                        {{ strftime(assignment.deadline) }}
+                                    </span>
+                                </span> 
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            <!-- </div> -->
+        {% endfor %}
+    </div>
+    {% if session["user_type"] == "teacher" %}
+        <div class="row mt-4 align-middle mx-2">
+            <h5 class="col-auto mr-auto">Students</h5>
+            <!-- <div class="col-sm-6 w-auto col-12 text-center">
+                <!-- <input type="email" placeholder="Enter student email" class="form-control"/> -->
+                <!-- <button type="button" class="btn btn-sm btn-outline-success">Add a student</button>
+            </div> -->
+        </div>
+
+        <table class="table table-hover mx-4">
+            <thead>
+                <th>Sr No.</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Remove Student</th>
+            </thead>
+            {% for student in classroom.students %}
+            <tr>
+                    <td class="">{{ loop.index }}.</td>
+
+                    <td> {{ student.name }} </td>
+                    
+                    <td class="font-italic">({{ student.email }})</td>
+                    <td>
+                        <a href="/classroom/{{ classroom.code }}/remove/{{ student.id }}" class="">
+                                                    <img src="{{ url_for('static', filename='images/remove-student.png') }}" class="img" width="40px" height="35px" alt="&downarrow;"/>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <h5 class="mt-4 mx-2">Settings</h5>
+        <button type="button" data-toggle="modal" data-target="#deleteModal" class="btn btn-danger mx-2"><i class="fas fa-trash-alt"></i> Delete Classroom</button>
+        
+        <div class="modal" id="deleteModal" role="dialog" tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirm classroom deletion</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="">Please type <span class="text-danger font-weight-bold">{{ classroom['name'] }}</span> to confirm deletion</div>
+                        <div class="my-3">
+                            <input type="text" id="delete_confirm" class="rounded form-control" oninput="confirmDelete(this.value)" placeholder="{{ classroom['name'] }}" />
+                        </div>
+                        <a href="/classroom/{{ classroom['code'] }}/delete" class="btn btn-block btn-outline-danger disabled" id="confirm_delete" disabled>Delete classroom</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function confirmDelete(val) {
+        if (val == "{{ classroom['name'] | safe }}") 
+            document.getElementById('confirm_delete').classList.remove("disabled");
+        else
+            document.getElementById('confirm_delete').classList.add("disabled");
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}Assignment{% endblock %}
+{% block logo %}Create new assignment{% endblock %}
+{% block nav %}{% endblock %}
+
+{% block body %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/classroom/{{ session['class_code'] }}" style="text-decoration: none;"><i class="fas fa-chevron-left"></i> Back</a></li>
+    </ol>
+</nav>
+<div class="container mb-3">
+    <form action="/classroom/{{ session['class_code'] }}/assignment/create", method="POST">
+        <div class="mb-4">
+            <label for="assignment_name">
+                <h5 class="text-success">Assignment name:</h5>
+            </label>
+            <input class="form-control w-50" type="text" maxlength="30" id="assignment_name" name="assignment_name" required>
+        </div>
+        <div class="mb-3">
+            <label for="assignment_desc"><h6>Problem statement:</h6></label>
+            <textarea class="form-control" type="text" maxlength="80" id="assignment_desc" name="assignment_desc" required></textarea>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-4 col-md-12 mb-3">
+                <label for="assignment_input_format"><h6>Input format</h6></label>
+                <textarea class="form-control" maxlength="80" id="assignment_input_format" name="assignment_input_format" required></textarea>
+            </div>
+            <div class="col-lg-4 col-md-12 mb-3">
+                <label for="assignment_output_format"><h6>Output format</h6></label>
+                <textarea class="form-control" maxlength="80" id="assignment_output_format" name="assignment_output_format" required></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <template id="templateInputCase">
+                <textarea class="form-control mb-2" name="assignment" id="" placeholder="" rows="1"></textarea>  
+            </template>
+            <div class="col-lg-4 col-md-12">
+                <label><h6>Input Cases</h6></label>
+            </div>
+            <div class="col-lg-4 col-md-12">
+                <label><h6>Output Cases</h6></label>
+            </div>
+            <div class="col-auto"></div>
+            
+            <div class="col-lg-4 col-md-12 mb-3" id="inputCases">
+                <textarea class="form-control mb-2" name="assignment_input_case_0" id="assignment_input_case_0" placeholder="Input case 1" rows="1"></textarea>  
+            </div>
+
+            <div class="col-lg-4 col-md-12 mb-3" id="outputCases">
+                <textarea class="form-control mb-2" name="assignment_output_case_0" id="assignment_output_case_0" placeholder="Output case 1" rows="1"></textarea>
+            </div>
+
+            <div class="col-lg-4 col-md-12">
+                <button type="button" class="btn btn-sm btn-outline-success" onclick="addInputOutputCase()">Add case</button>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-8 mb-3 col-sm-12">
+                <label for="assignment_constraints"><h6>Constraints</h6></label>
+                <input class="form-control" type="text" maxlength="80" id="assignment_constraints" name="assignment_constraints">
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <label for="assignment_deadline"><h6>Deadline</h6></label>
+                <input class="form-control" type="datetime-local" id="assignment_deadline" name="assignment_deadline">
+            </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function addInputOutputCase() {
+        const inputCases = document.getElementById("inputCases");
+        const outputCases = document.getElementById("outputCases");
+        const templateInputCase = document.getElementById("templateInputCase");
+        
+        let lastIndex = 0;
+        for (let child of inputCases.children) {
+            const childName = child.name.split("_");
+            if (lastIndex == childName[childName.length - 1])   lastIndex++;
+        }
+
+        let inputCaseNode = templateInputCase.content.cloneNode(true);
+        let inputTextarea = inputCaseNode.querySelector("textarea");
+        
+        inputTextarea.name = inputTextarea.name + "_input_case_" + lastIndex;
+        inputTextarea.id = inputTextarea.name;
+        inputTextarea.placeholder = "Input case " + (lastIndex+1);
+        inputCases.appendChild(inputCaseNode);
+
+        let outputCaseNode = templateInputCase.content.cloneNode(true);
+        let outputTextarea = outputCaseNode.querySelector("textarea");
+        
+        outputTextarea.name = outputTextarea.name + "_output_case_" + lastIndex;
+        outputTextarea.id = outputTextarea.name;
+        outputTextarea.placeholder = "Output case " + (lastIndex+1);
+        outputCases.appendChild(outputCaseNode);
+
+        console.log(lastIndex);
+    }
+</script>
+{% endblock %}

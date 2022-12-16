@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css"
+        integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap" rel="stylesheet">
+
+    <!-- codemirror css (vishal) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/codemirror.css')}}">
+
+    <!-- themes (optional) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/eclipse.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cobalt.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/3024-night.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/material.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/neat.css')}}">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <title>Coding Classroom | {% block title %}{% endblock %}</title>
+    {% block style %}
+    {% endblock %}
+    <style>
+        .close {
+            float: right;
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1;
+            color: #000;
+            text-shadow: 0 1px 0 #fff;
+            opacity: .5;
+            background-color: transparent;
+            border-color: transparent;
+            margin-top: auto;
+        }
+
+        .alert-dismissible .close {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: .75rem 1.25rem;
+            color: inherit;
+        }
+        .footer {
+            margin-top: 350px;
+            padding: 2.5rem 0;
+            color: #fff;
+            text-align: center;
+            background-color: rgba(34, 34, 34, 0.945);
+            border-top: .05rem solid rgba(34, 34, 34, 0.945);
+        }
+
+        .footer p:last-child {
+            margin-bottom: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2 sticky-top">
+        <a class="navbar-brand" href="/">
+            <img class="mx-2 rounded-circle" src="{{ url_for('static', filename = 'images/LOGO.png') }}" alt="logo"
+                width="40" height="40" />
+            <span class="align-middle" style="font-family: 'Balsamiq Sans', cursive; font-size: larger;">
+                Coding Classroom <!--{% block logo %}{% endblock %}-->
+            </span>
+        </a>
+        <button class="navbar-toggler btn btn-dark mr-2 py-1 border-0" type="button" data-toggle="collapse"
+            data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span><i class="material-icons">dehaze</i></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav mr-auto">
+                {% block nav %}{% endblock %}
+                {% if "email" in session %}
+
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav align-items-center">
+                {% if "email" not in session %}
+                <li class="nav-item mx-1 py-1">
+                    <button class="btn btn-primary btn-block" data-toggle="modal"
+                        data-target="#LoginModal">Login</button>
+                </li>
+                <li class="nav-item mx-1 py-1">
+                    <button class="btn btn-danger btn-block" data-toggle="modal" data-target="#SignUpModal">Sign
+                        Up</button>
+                </li>
+                {% else %}
+
+                <li class="nav-item mx-1 py-1 text-light mr-4" style="font-size: larger;">
+                    {{ session["name"] }}
+                </li>
+                <li class="nav-item mx-1 py-1">
+                    <a class="btn btn-light btn-block" href="/dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item mx-1 py-1">
+                    <form action="/logout" method="POST">
+                        <button type="submit" class="btn btn-danger btn-block"><i class="fas fa-sign-out-alt"></i></button>
+                    </form>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    {% include 'include/flash.html' %}
+
+    {% block body %}{% endblock %}
+
+    <footer class="footer sticky-bottom">
+        <h6>Let us know your valuable feedback.</h6>
+        <p><b>Contact us at :</b></p>
+        <div class="d-flex justify-content-center my-1">
+            <a href="mailto:mceta@gmail.com" style="text-decoration: none;">
+                <button class="btn btn-success my-auto"><i class="material-icons"
+                        style="font-size: 22px; color:white; vertical-align: middle;">email</i> mceta@gmail.com</button>
+            </a>
+        </div>
+
+        <p>
+            <a class="btn btn-warning m-3" style="position: fixed; bottom: 0; right: 0;" href="#">&uparrow;</a>
+        </p>
+    </footer>
+
+    <!-- Load modals in no user is logged in -->
+    {% if "email" not in session %}
+        {% include 'include/login_modal.html' %}
+    {% endif %}
+</body>
+<!-- JavaScript Bundle with Popper.js -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/js/bootstrap.bundle.min.js"
+    integrity="sha384-BOsAfwzjNJHrJ8cZidOg56tcQWfp6y72vEJ8xQ9w6Quywb24iOsW913URv1IS4GD" crossorigin="anonymous">
+    </script>
+{% block scripts %}{% endblock %}
+
+</html>

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Teacher{% endblock %}
+{% block logo %}Teacher Dashboard{% endblock %}
+{% block nav %}{% endblock %}
+{% block body %}
+
+
+<div class="container">
+    <div class="row my-4">
+        <div class="col-auto">
+            <a class="btn btn-outline-success" href="/classroom/create">Create new classroom</a>
+        </div>
+    </div>
+    <div class="row">
+        <h4 class="text-sm-center text-lg-left">Classrooms</h4>
+    </div>
+    <div class="row">
+        {% for subject_index in range(0, classes|length, 3) %}
+            <!-- <div class="card-deck"> -->
+                {% for subject in classes[subject_index:subject_index+3] %}
+                    <div class="col-lg-4 my-2">
+                        <div class="card border-secondary">
+                            <div class="card-body">
+                                <a href="/classroom/{{ subject['code'] }}" class="card-title h5 text-decoration-none text-success">{{ subject['name'] }}</a>
+                                <p class="card-text text-muted mt-2 text-truncate">{{ subject['desc'] }}</p>
+                            </div>
+                            <div class="card-footer row mx-0 align-items-center">
+                                {% if subject['assignment'] %}
+                                        <span class="align-middle col pl-0">{{ subject['assignment'].name }}</span>
+                                        <a href="/assignment/{{ subject['assignment'].code }}" class="btn btn-primary btn-sm col-2">View</a>
+                                {% else %}
+                                    <span class="align-middle col pl-0">No current assignments!</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            <!-- </div> -->
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,168 @@
+<div class="container">
+    <!--login Modal -->
+    <div class="modal fade" id="LoginModal" tabindex="-1" aria-labelledby="LoginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="LoginModalLabel">Login as </h5>
+                </div>
+                <div class="modal-body">
+                    <button type="submit" class="btn btn-success" data-dismiss="modal" data-toggle="modal"
+                        data-target="#StudentLoginModal">Student</button> 
+                    <button type="submit"
+                        class="btn btn-primary" data-dismiss="modal" data-toggle="modal"
+                        data-target="#TeacherLoginModal">Teacher</button> 
+                </div>
+                <!-- <div class="modal-footer">
+                    NULL
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <!--teacherLogin Modal -->
+    <div class="modal fade" id="TeacherLoginModal" tabindex="-1" aria-labelledby="TeacherModalLoginLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="TeacherModalLoginLabel">Login as teacher</h5>
+                </div>
+                <div class="modal-body container">
+                    <form action="/login" method="POST">
+                        <div class="form-group mb-3">
+                            <label for="teacherLoginEmail">Email</label>
+                            <input type="email" class="form-control" id="teacherLoginEmail" name="email" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" class="form-control" id="teacherLoginPassword" name="password" required>
+                        </div>
+                        <input type="text" class="form-control" name="user_type" value="Teacher" readonly hidden>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--StudentLogin Modal -->
+    <div class="modal fade" id="StudentLoginModal" tabindex="-1" aria-labelledby="StudentModalLoginLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="StudentModalLoginLabel">Login as student</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="/login" method="POST">
+                        <input type="text" name="user_type" value="student" readonly hidden>
+                        <div class="form-group mb-2">
+                            <label for="studentLoginEmail">Email</label>
+                            <input type="email" class="form-control" id="studentLoginEmail" name="email" required>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="studentLoginPassword">Password</label>
+                            <input type="password" class="form-control" id="studentLoginPassword" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                </div>
+                <!-- <div class="modal-footer">
+                    NULL
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <!--SignUp Modal -->
+    <div class="modal fade" id="SignUpModal" tabindex="-1" aria-labelledby="SignUpModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="SignUpModalLabel">Sign up as</h5>
+                </div>
+                <div class="modal-body">
+                    <button type="button" class="btn btn-success" 
+                        data-dismiss="modal" data-toggle="modal" data-target="#StudentSignUpModal">Student</button>
+                    <button type="button" class="btn btn-primary" 
+                        data-dismiss="modal" data-toggle="modal" data-target="#TeachersSignUpModal">Teacher</button>
+                </div>
+                <!-- <div class="modal-footer">
+                    NULL
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <!--TeachersSignUp Modal -->
+    <div class="modal fade" id="TeachersSignUpModal" tabindex="-1" aria-labelledby="teachersModalSignUpLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="StudentModalSignUpLabel">Sign up as a teacher</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="/register" method="POST">
+                        <input type="text" name="user_type" value="teacher" hidden readonly>
+                        <div class="form-group mb-3">
+                            <label for="teacherSignupName">Name</label>
+                            <input type="Name" class="form-control" id="teacherSignupName" name="name" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="teacherSignupEmail">Email</label>
+                            <input type="email" class="form-control" id="teacherSignupEmail" name="email" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="teacherSignupPassword">Password</label>
+                            <input type="password" class="form-control" id="teacherSignupPassword" name="password" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="teacherSignupConfirmPassword">Confirm Password</label>
+                            <input type="password" class="form-control" id="teacherSignupConfirmPassword" name="verify_password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                    </form>
+                </div>
+                <!-- <div class="modal-footer text-left">
+                    NULL
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <!--StudentSignUp Modal -->
+    <div class="modal fade" id="StudentSignUpModal" tabindex="-1" aria-labelledby="StudentModalSignUpLabel"
+        aria-hidden="true" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="StudentModalSignUpLabel">Sign up as a student</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="/register" method="POST">
+                        <input type="text" name="user_type" value="student" hidden readonly>
+                        <div class="form-group mb-3">
+                            <label for="studentSignupName">Name</label>
+                            <input type="Name" class="form-control" id="studentSignupName" name="name" required>
+                        </div>
+                        <!-- <div class="form-group">
+                            <label for="exampleInputname">GR Number</label>
+                            <input type="Name" class="form-control" id="exampleInputname">
+                        </div> -->
+                        <div class="form-group mb-3">
+                            <label for="studentSignupEmail">Email</label>
+                            <input type="email" class="form-control" id="studentSignupEmail" name="email" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="studentSignupPassword">Password</label>
+                            <input type="password" class="form-control" id="studentSignupPassword" name="password" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="studentSignupConfirmPassword">Confirm Password</label>
+                            <input type="password" class="form-control" id="studentSignupConfirmPassword" name="verify_password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                    </form>
+                </div>
+                <!-- <div class="modal-footer">
+                    NULL
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
