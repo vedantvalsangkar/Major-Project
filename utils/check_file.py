@@ -8,7 +8,7 @@ terminal_commands = {
     "c": [["gcc", "file", "-o", "output_file"],  ["output_file"]],
     "cpp": [["g++", "file", "-o", "output_file"], ["output_file"]],
     "java": [["javac", "file", "-d", "output_dir"],  ["java", "file"]],
-    "py": [["python3", "file"]],
+    "py": [["python", "file"]],
 }
 
 class CheckFile:
